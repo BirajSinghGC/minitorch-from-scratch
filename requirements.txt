@@ -1,0 +1,20 @@
+# installed fine
+colorama==0.4.6
+# hypothesis 6.54 not compatible with python 3.14.3
+hypothesis == 6.151.6
+## 0.6 not compatible with python 3.14.3
+## installing version numba-0.63.1
+numba == 0.63.1
+# 2.0.0 not compatible with python 3.14.3
+# installing version numpy-2.3.5
+numpy == 2.3.5
+# installed fine
+pre-commit == 2.20.0
+# installed fine
+pytest == 8.3.2
+# installed fine
+pytest-env
+# installed fine
+pytest-runner == 5.2
+# installed fine
+typing_extensions
