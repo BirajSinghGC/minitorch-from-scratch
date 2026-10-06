@@ -90,10 +90,6 @@ def exp_back(x:float, y:float) -> float:
 
 # - sigmoid_back
 
-
-# TODO: Implement for Task 0.1.
-
-
 # ## Task 0.3
 
 # Small practice library of elementary higher-order functions.

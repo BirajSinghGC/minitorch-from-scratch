@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from ast import Mod, mod
+import re
 from typing import Any, Dict, Optional, Sequence, Tuple
 
 
@@ -31,14 +33,18 @@ class Module:
 
     def train(self) -> None:
         """Set the mode of this module and all descendent modules to `train`."""
-        # TODO: Implement for Task 0.4.
-        raise NotImplementedError("Need to implement for Task 0.4")
+        self.training = True
+        m: Dict[str, Module] = self.__dict__["_modules"]
+        for module in m:
+            m[module].train()
 
     def eval(self) -> None:
         """Set the mode of this module and all descendent modules to `eval`."""
-        # TODO: Implement for Task 0.4.
-        raise NotImplementedError("Need to implement for Task 0.4")
-
+        self.training = False
+        m: Dict[str, Module] = self.__dict__["_modules"]
+        for module in m:
+            m[module].eval()
+            
     def named_parameters(self) -> Sequence[Tuple[str, Parameter]]:
         """Collect all the parameters of this module and its descendents.
 
@@ -47,14 +53,34 @@ class Module:
             The name and `Parameter` of each ancestor parameter.
 
         """
-        # TODO: Implement for Task 0.4.
-        raise NotImplementedError("Need to implement for Task 0.4")
+
+        recursive_list = []
+        for name, param in self._parameters.items():
+            recursive_list.append((name, param))
+        
+        
+        m: Dict[str, Module] = self.__dict__["_modules"]
+        for module in m:   
+            for child_name, param in m[module].named_parameters():
+                recursive_list.append((module + "." + child_name, param))
+        
+        return recursive_list
+        
+        
 
     def parameters(self) -> Sequence[Parameter]:
         """Enumerate over all the parameters of this module and its descendents."""
-        # TODO: Implement for Task 0.4.
-        raise NotImplementedError("Need to implement for Task 0.4")
-
+        recursive_list = []
+        for name, param in self._parameters.items():
+            recursive_list.append(param)
+        
+        
+        m: Dict[str, Module] = self.__dict__["_modules"]
+        for module in m:   
+            recursive_list.extend(m[module].parameters())
+        
+        return recursive_list
+    
     def add_parameter(self, k: str, v: Any) -> Parameter:
         """Manually add a parameter. Useful helper for scalar parameters.
 
@@ -146,4 +172,5 @@ class Parameter:
         return repr(self.value)
 
     def __str__(self) -> str:
+
         return str(self.value)
