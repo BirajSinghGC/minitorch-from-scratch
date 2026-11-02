@@ -1,11 +1,7 @@
 """Collection of the core mathematical operators used throughout the code base."""
-
-from ast import Call
-import enum
 import math
 
 # ## Task 0.1
-from pickletools import floatnl
 from typing import Callable, Iterable
 
 #
@@ -55,7 +51,7 @@ def sigmoid(x:float) -> float:
 # - relu
 def relu(x:float) -> float:
     """$f(x) = max(0, x)$"""
-    return max(0, x)
+    return max(0.0, x)
 # - log
 def log(x:float) -> float:
     """$f(x) = log(x)$"""
@@ -88,12 +84,14 @@ def exp_back(x:float, y:float) -> float:
     """$f(x, y) = y * e^x$"""
     return y * math.exp(x)
 
-# - sigmoid_back
+def sigmoid_back(x:float, y:float):
+    """σ′(x) = σ(x)·(1 − σ(x))"""
+    sigmoid_x = sigmoid(x)
+    return y * sigmoid_x * (1 - sigmoid_x)
 
 # ## Task 0.3
 
 # Small practice library of elementary higher-order functions.
-
 # Implement the following core functions
 # - map
 def map(fn: Callable[[float], float]) -> Callable[[Iterable[float]], Iterable[float]]:
@@ -123,9 +121,6 @@ def reduce(fn: Callable[[float, float], float], starting_result: float) -> Calla
     
     return apply
             
-                
-    
-#
 # Use these to implement
 # - negList : negate all elemnts in a list using map
 negList = map(neg)
